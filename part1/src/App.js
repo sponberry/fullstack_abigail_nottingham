@@ -4,14 +4,8 @@ const Header = (props) => (
   <h1>{props.title}</h1>
 )
 
-const Content = (props) => (
-  <>
-  {props.parts.map(function (part, index) {
-    return (
-      <p key={index}>{part} {props.exercises[index]}</p>
-    )
-  })}
-  </>
+const Part = (props) => (
+  <p>{props.part} {props.exercises}</p>
 )
 
 const Total = (props) => (
@@ -31,7 +25,9 @@ const App = () => {
   return (
   <div>
     <Header title={course} />
-    <Content parts={[part1, part2, part3]} exercises={[exercises1, exercises2, exercises3]} />
+    <Part part={part1} exercises={exercises1} />
+    <Part part={part2} exercises={exercises2} />
+    <Part part={part3} exercises={exercises3} />
     <Total totals={exercises1 + exercises2 + exercises3} />
   </div>
   )
