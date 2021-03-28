@@ -5,8 +5,8 @@ const Header = (props) => (
 )
 
 const Part = (props) => (
-  props.parts.map(part => 
-    <p>{part.name} {part.exercises}</p>
+  props.parts.map((part, index) => 
+    <p key={index}>{part.name} {part.exercises}</p>
   )
 )
 
