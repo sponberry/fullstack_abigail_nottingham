@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 
-const genNumber = () => (Math.floor(Math.random() * 6));
+const NumberButton = ({ handleClick }) => (
+  <button onClick={() => handleClick((Math.floor(Math.random() * 6)))}>next anecdote</button>
+  )
+
+const VoteButton = ({ handleClick, points, selected }) => {
+  const copy = [...points]
+  copy[selected] += 1
+  return (
+    <button onClick={() => handleClick(copy)}>vote</button>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -13,11 +23,15 @@ const App = () => {
   ];
   
   const [selected, setSelected] = useState(0);
- 
+  const [points, setPoints] = useState(new Uint8Array(6))
+
+  
+
   return (
   <div>
     <p>{anecdotes[selected]}</p>
-    <button onClick={() => setSelected(genNumber())}>next anecdote</button>
+    <VoteButton handleClick={setPoints} points={points} selected={selected} />
+    <NumberButton handleClick={setSelected}/>
   </div>
   )
 }
