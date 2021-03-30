@@ -7,6 +7,7 @@ const NumberButton = ({ handleClick }) => (
 const VoteButton = ({ handleClick, points, selected }) => {
   const copy = [...points]
   copy[selected] += 1
+
   return (
     <button onClick={() => handleClick(copy)}>vote</button>
   )
@@ -25,13 +26,27 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [points, setPoints] = useState(new Uint8Array(6))
 
-  
+  let winner = null
+  let mostPoints = 0
+  let display = "No votes yet"
+  for(var index=0; index<points.length; index++) {
+    if (points[index] > mostPoints && points[index] > 0) {
+      mostPoints = points[index];
+      winner = index
+      display = `has ${points[winner]} votes`
+    }
+  }
 
   return (
   <div>
+    <h1>Anecdote of the day</h1>
     <p>{anecdotes[selected]}</p>
+    <p>has {points[selected]} votes</p>
     <VoteButton handleClick={setPoints} points={points} selected={selected} />
     <NumberButton handleClick={setSelected}/>
+    <h2>Anecdote with the most votes</h2>
+    <p>{anecdotes[winner]}</p>
+    <p>{display}</p>
   </div>
   )
 }
