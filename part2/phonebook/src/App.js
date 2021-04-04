@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 import Persons from "./components/Persons"
 import AddForm from "./components/AddForm"
 import SearchForm from "./components/SearchForm"
 
-const App = ({ loadedPersons }) => {
-  const [ persons, setPersons ] = useState(loadedPersons) 
+const App = () => {
+  const [ persons, setPersons ] = useState([]) 
   const [ entriesToShow, setEntriesToShow] = useState('')
 
   let re = new RegExp(".*"+entriesToShow+".*")
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons")
+    .then(response => {
+      setPersons(response.data)
+    })
+  }, [])
+  console.log("render", persons.length, "contacts")
 
   return (
     <div>
