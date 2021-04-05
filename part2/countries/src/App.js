@@ -20,7 +20,7 @@ const App = () => {
   return (
     <div>
       <SearchForm entriesToShow={entriesToShow} setEntriesToShow={setEntriesToShow} />
-      <Countries countries={countries} entries={re} />
+      <Countries countries={countries} entries={re} setEntriesToShow={setEntriesToShow} />
     </div>
   )
 }

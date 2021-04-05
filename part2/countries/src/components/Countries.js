@@ -2,7 +2,7 @@ import React from "react"
 import Country from "./Country"
 import FullCountryInfo from "./FullCountryInfo"
 
-const Countries = ({ countries, entries }) => {
+const Countries = ({ countries, entries, setEntriesToShow }) => {
   let matches = []
   if (countries.length > 0) {
     countries.map(country => {
@@ -22,7 +22,7 @@ const Countries = ({ countries, entries }) => {
   } else {
     return (
       <ul>
-      <Country matchingCountries={matches}/>
+      <Country matchingCountries={matches} setEntriesToShow={setEntriesToShow} />
       </ul>
   )}
 }
