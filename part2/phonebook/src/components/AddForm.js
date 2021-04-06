@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import phonebook from "../services/numbers"
 
 const AddForm = ({ persons, setPersons }) => {
     const [ newName, setNewName ] = useState('')
@@ -9,9 +10,10 @@ const AddForm = ({ persons, setPersons }) => {
       if (persons.find(element => element.name.toLowerCase() === newName.toLowerCase())) {
         alert(`${newName} is already an entry in the phonebook`)
       } else {
-        setPersons(persons.concat({name: newName, number: newNumber}));
+        phonebook.addNumber({name: newName, number: newNumber})
+        .then(updatedData => setPersons(persons.concat(updatedData)))
       }
-      setNewName("");
+      setNewName("")
       setNewNumber("")
     }
   

@@ -15,7 +15,6 @@ const App = () => {
       setCountries(response.data)
     })
   }, [])
-  console.log(countries)
 
   return (
     <div>

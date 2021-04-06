@@ -9,7 +9,6 @@ const FullCountryInfo = ({ country }) => {
   useEffect(() => {
     axios.get(apiUrl)
     .then(response => {
-      console.log(response.data)
       setWeather(response.data)
     })
   }, [apiUrl])
@@ -24,7 +23,7 @@ const FullCountryInfo = ({ country }) => {
     <h2>Languages</h2>
     <ul>
       {country.languages.map(language => (
-        <li>{language.name}</li>
+        <li key={language.name}>{language.name}</li>
       ))}
     </ul>
     <img src={country.flag} alt={country.name} width={200} />
