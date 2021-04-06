@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import axios from "axios"
 import Persons from "./components/Persons"
 import AddForm from "./components/AddForm"
 import SearchForm from "./components/SearchForm"
+import phonebook from "./services/numbers"
 
 const App = () => {
   const [ persons, setPersons ] = useState([]) 
@@ -11,11 +11,9 @@ const App = () => {
   let re = new RegExp(".*"+entriesToShow+".*")
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons")
-    .then(response => {
-      setPersons(response.data)
-    })
-  }, [])
+    phonebook.getAll().then(
+      allNumbers => setPersons(allNumbers)
+    )}, [])
   console.log("render", persons.length, "contacts")
 
   return (
