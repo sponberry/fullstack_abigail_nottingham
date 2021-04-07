@@ -7,8 +7,13 @@ const AddForm = ({ persons, setPersons }) => {
   
     const handleSubmit = (event) => {
       event.preventDefault();
-      if (persons.find(element => element.name.toLowerCase() === newName.toLowerCase())) {
-        alert(`${newName} is already an entry in the phonebook`)
+      const currentEntry = persons.find(element => element.name.toLowerCase() === newName.toLowerCase())
+      if (currentEntry) {
+        let confirmed = window.confirm(`${newName} is already an entry in the phonebook, replace number?`)
+        if (confirmed) {
+          phonebook.update({...currentEntry, number: newNumber}, currentEntry.id)
+          .then(updated => setPersons(persons.map(p => p.id !== updated.id ? p : updated)))
+        }
       } else {
         phonebook.addNumber({name: newName, number: newNumber})
         .then(updatedData => setPersons(persons.concat(updatedData)))

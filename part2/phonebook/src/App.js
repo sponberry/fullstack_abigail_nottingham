@@ -8,13 +8,12 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
   const [ entriesToShow, setEntriesToShow] = useState('')
 
-  let re = new RegExp(".*"+entriesToShow+".*")
+  let re = new RegExp(".*"+entriesToShow.toLowerCase()+".*")
 
   useEffect(() => {
     phonebook.getAll().then(
       allNumbers => setPersons(allNumbers)
     )}, [])
-  console.log("render", persons.length, "contacts")
 
   return (
     <div>
@@ -24,7 +23,7 @@ const App = () => {
       <AddForm persons={persons} setPersons={setPersons} />
       <h2>Numbers</h2>
       <ul>
-        <Persons persons={persons} entries={re} />
+        <Persons persons={persons} entries={re} setPersons={setPersons} />
       </ul>
     </div>
   )
