@@ -1,10 +1,30 @@
 import React, { useState } from "react"
 import phonebook from "../services/numbers"
 
-const AddForm = ({ persons, setPersons }) => {
+const AddForm = ({ persons, setPersons, setMessageConfig }) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
   
+    const resetMsg = () => 
+    setTimeout(() => {
+      setMessageConfig(false)
+    }, 5000)
+
+    const successMsg = () => {
+      setMessageConfig([
+        `Success! ${newName} has been successfully added to the phonebook`,
+        "green"
+      ])
+      resetMsg()
+    }
+    const failMsg = () => {
+      setMessageConfig([
+        `Information for ${newName} not found on server, please create a new contact`,
+        "red"
+      ])
+      resetMsg()
+    }
+
     const handleSubmit = (event) => {
       event.preventDefault();
       const currentEntry = persons.find(element => element.name.toLowerCase() === newName.toLowerCase())
@@ -12,11 +32,25 @@ const AddForm = ({ persons, setPersons }) => {
         let confirmed = window.confirm(`${newName} is already an entry in the phonebook, replace number?`)
         if (confirmed) {
           phonebook.update({...currentEntry, number: newNumber}, currentEntry.id)
-          .then(updated => setPersons(persons.map(p => p.id !== updated.id ? p : updated)))
+          .then(updated => {
+            setPersons(persons.map(p => p.id !== updated.id ? p : updated))
+            successMsg()
+          })
+          .catch(error => {
+            failMsg()
+            setPersons(persons.filter(p => p.id !== currentEntry.id))
+          })
         }
       } else {
         phonebook.addNumber({name: newName, number: newNumber})
-        .then(updatedData => setPersons(persons.concat(updatedData)))
+        .then(updatedData => {
+          setPersons(persons.concat(updatedData))
+          successMsg()
+        })
+        .catch(error => {
+          failMsg()
+          setPersons(persons.filter(p => p.id !== currentEntry.id))
+        })
       }
       setNewName("")
       setNewNumber("")

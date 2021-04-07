@@ -2,3 +2,10 @@ ul {
   list-style: none;
   padding-left: 0;
 }
+
+.error {
+  color: red;
+  font-family: monospace;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
