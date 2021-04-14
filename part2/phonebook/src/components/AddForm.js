@@ -17,9 +17,9 @@ const AddForm = ({ persons, setPersons, setMessageConfig }) => {
       ])
       resetMsg()
     }
-    const failMsg = () => {
+    const failMsg = (message) => {
       setMessageConfig([
-        `Information for ${newName} not found on server, please create a new contact`,
+        `${message.error}`,
         "red"
       ])
       resetMsg()
@@ -37,8 +37,7 @@ const AddForm = ({ persons, setPersons, setMessageConfig }) => {
             successMsg()
           })
           .catch(error => {
-            failMsg()
-            setPersons(persons.filter(p => p.id !== currentEntry.id))
+            failMsg(error.response.data)
           })
         }
       } else {
@@ -48,8 +47,7 @@ const AddForm = ({ persons, setPersons, setMessageConfig }) => {
           successMsg()
         })
         .catch(error => {
-          failMsg()
-          setPersons(persons.filter(p => p.id !== currentEntry.id))
+          failMsg(error.response.data)
         })
       }
       setNewName("")

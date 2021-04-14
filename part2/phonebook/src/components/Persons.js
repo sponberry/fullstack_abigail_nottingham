@@ -14,7 +14,7 @@ const Persons = ({ persons, entries, setPersons, setMessageConfig }) => {
   
 
   const handleClick = (e) => {
-    let idToDel = Number(e.target.value)
+    let idToDel = e.target.value
     let name = persons.find(p => p.id === idToDel).name
     if (window.confirm(`This will delete ${name} permanently`)) {
       phonebook.deleteNumber(idToDel)
