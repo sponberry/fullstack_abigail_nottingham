@@ -5,6 +5,7 @@ import noteService from "../services/notes"
 const LoginForm = ({ setUser, setErrorMessage, user, errorMessage }) => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -28,32 +29,33 @@ const LoginForm = ({ setUser, setErrorMessage, user, errorMessage }) => {
     }
   }
 
+
   return(
-    <form onSubmit={handleLogin}>
-      <div>
-        <label id="username">username</label>
-        <input 
-          type="text" 
-          id="username"
-          name="Username"
-          placeholder="enter username"
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-          />
-      </div>
-      <div>
-        <label id="password">password</label>
-        <input 
-          type="password" 
-          id="password"
-          name="Password"
-          placeholder="enter password"
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-          />
-      </div>
-      <button type="submit">login</button>
-    </form>
+        <form onSubmit={handleLogin}>
+          <div>
+            <label id="username">username</label>
+            <input 
+              type="text" 
+              id="username"
+              name="Username"
+              placeholder="enter username"
+              value={username}
+              onChange={({ target }) => setUsername(target.value)}
+              />
+          </div>
+          <div>
+            <label id="password">password</label>
+            <input 
+              type="password" 
+              id="password"
+              name="Password"
+              placeholder="enter password"
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              />
+          </div>
+          <button type="submit">login</button>
+        </form>
   )
 }
 

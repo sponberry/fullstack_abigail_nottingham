@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Note from './components/Note';
 import Notification from "./components/Notification"
 import noteService from "./services/notes"
 import LoginForm from "./components/LoginForm"
 import NoteForm from "./components/NoteForm"
+import Togglable from "./components/Togglable"
 
 const App = () => {  
   const [notes, setNotes] = useState([])
@@ -47,7 +48,21 @@ const App = () => {
     })
   }
 
+  const noteFormRef = useRef()
+
   const notesToShow = showAll ? notes : notes.filter(note => note.important)
+
+  const handleLogout = () => {
+    window.localStorage.clear()
+    setUser(null)
+    noteService.setToken(null)
+  }
+
+  const createNote = async noteObject => {
+    noteFormRef.current.toggleVisibility()
+    const addedNote = await noteService.create(noteObject)
+    setNotes(notes.concat(addedNote))
+  }
 
   return (
     <div>
@@ -55,18 +70,24 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {user === null
-        ? <LoginForm 
-            user={user}
-            setUser={(user) => setUser(user)} 
-            errorMessage={errorMessage}
-            setErrorMessage={(errorMessage) => setErrorMessage(errorMessage)}
-            />
+        ? <Togglable buttonLabel="login">
+            <LoginForm 
+              user={user}
+              setUser={(user) => setUser(user)} 
+              errorMessage={errorMessage}
+              setErrorMessage={(errorMessage) => setErrorMessage(errorMessage)}
+              />
+          </Togglable>
         : <div>
-            <p>{user.name} logged in</p> 
-            <NoteForm
-              notes={notes}
-              setNotes={(notes) => setNotes(notes)}
-            />
+            <p>
+              {user.name} logged in
+              <button onClick={handleLogout}>logout</button>
+            </p> 
+            <Togglable buttonLabel="new note" ref={noteFormRef}>
+              <NoteForm
+                createNote={createNote}
+              />
+            </Togglable>
           </div>
       }
 
