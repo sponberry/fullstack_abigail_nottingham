@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Note from './components/Note';
 import Notification from "./components/Notification"
 import noteService from "./services/notes"
+import LoginForm from "./components/LoginForm"
+import NoteForm from "./components/NoteForm"
 
 const App = () => {  
   const [notes, setNotes] = useState([])
-  const [newNote, setNewNote] = useState('') 
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => { 
     noteService     
@@ -15,26 +17,16 @@ const App = () => {
     .then(initialNotes => {             
       setNotes(initialNotes)      
     })  
-  }, [])  
+  }, [])
 
-  const addNote = (event) => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("loggedNoteappUser")
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      noteService.setToken(user.token)
     }
-    noteService
-      .create(noteObject)
-      .then(addedNote => {
-        setNotes(notes.concat(addedNote))
-        setNewNote('')
-      })
-  }
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-  }
+  }, [])
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
@@ -61,11 +53,23 @@ const App = () => {
     <div>
       <h1>Notes</h1>
       <Notification message={errorMessage} />
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
-        </button>
-      </div>
+
+      {user === null
+        ? <LoginForm 
+            user={user}
+            setUser={(user) => setUser(user)} 
+            errorMessage={errorMessage}
+            setErrorMessage={(errorMessage) => setErrorMessage(errorMessage)}
+            />
+        : <div>
+            <p>{user.name} logged in</p> 
+            <NoteForm
+              notes={notes}
+              setNotes={(notes) => setNotes(notes)}
+            />
+          </div>
+      }
+
       <ul>
         {notesToShow.map(note => 
           <Note 
@@ -75,10 +79,11 @@ const App = () => {
           />
         )}
       </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+      <div>
+        <button onClick={() => setShowAll(!showAll)}>
+          show {showAll ? 'important' : 'all'}
+        </button>
+      </div>
     </div>
   )
 }
