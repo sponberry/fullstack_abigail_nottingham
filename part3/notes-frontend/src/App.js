@@ -1,23 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Note from './components/Note';
+import React, { useState, useEffect, useRef } from "react"
+import Note from "./components/Note"
 import Notification from "./components/Notification"
 import noteService from "./services/notes"
 import LoginForm from "./components/LoginForm"
 import NoteForm from "./components/NoteForm"
 import Togglable from "./components/Togglable"
 
-const App = () => {  
+const App = () => {
   const [notes, setNotes] = useState([])
   const [showAll, setShowAll] = useState(true)
   const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
-  useEffect(() => { 
-    noteService     
-    .getAll()      
-    .then(initialNotes => {             
-      setNotes(initialNotes)      
-    })  
+  useEffect(() => {
+    noteService
+      .getAll()
+      .then(initialNotes => {
+        setNotes(initialNotes)
+      })
   }, [])
 
   useEffect(() => {
@@ -31,21 +31,22 @@ const App = () => {
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
-    const changedNote = { ...note, important: !note.important}
+    const changedNote = { ...note, important: !note.important }
 
     noteService.update(id, changedNote)
-    .then(updatedNote => {
-      setNotes(notes.map(note => note.id !== id ? note : updatedNote))
-    })
-    .catch(error => {
-      setErrorMessage(
-        `the note '${note.content}' was already deleted from the server.`
-      )
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-      setNotes(notes.filter(n => n.id !== id))
-    })
+      .then(updatedNote => {
+        setNotes(notes.map(note => note.id !== id ? note : updatedNote))
+      })
+      .catch(error => {
+        setErrorMessage(
+          `the note '${note.content}' was already deleted from the server.`
+        )
+        console.log(error.message)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+        setNotes(notes.filter(n => n.id !== id))
+      })
   }
 
   const noteFormRef = useRef()
@@ -71,42 +72,42 @@ const App = () => {
 
       {user === null
         ? <Togglable buttonLabel="login">
-            <LoginForm 
-              user={user}
-              setUser={(user) => setUser(user)} 
-              errorMessage={errorMessage}
-              setErrorMessage={(errorMessage) => setErrorMessage(errorMessage)}
-              />
-          </Togglable>
+          <LoginForm
+            user={user}
+            setUser={(user) => setUser(user)}
+            errorMessage={errorMessage}
+            setErrorMessage={(errorMessage) => setErrorMessage(errorMessage)}
+          />
+        </Togglable>
         : <div>
-            <p>
-              {user.name} logged in
-              <button onClick={handleLogout}>logout</button>
-            </p> 
-            <Togglable buttonLabel="new note" ref={noteFormRef}>
-              <NoteForm
-                createNote={createNote}
-              />
-            </Togglable>
-          </div>
+          <p>
+            {user.name} logged in
+            <button onClick={handleLogout}>logout</button>
+          </p>
+          <Togglable buttonLabel="new note" ref={noteFormRef}>
+            <NoteForm
+              createNote={createNote}
+            />
+          </Togglable>
+        </div>
       }
 
       <ul>
-        {notesToShow.map(note => 
-          <Note 
-          key={note.id} 
-          note={note}
-          toggleImportance={() => toggleImportanceOf(note.id)} 
+        {notesToShow.map(note =>
+          <Note
+            key={note.id}
+            note={note}
+            toggleImportance={() => toggleImportanceOf(note.id)}
           />
         )}
       </ul>
       <div>
         <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all'}
+          show {showAll ? "important" : "all"}
         </button>
       </div>
     </div>
   )
 }
 
-export default App 
+export default App

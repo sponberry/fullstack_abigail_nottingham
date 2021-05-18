@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 
 const NoteForm = ({ createNote }) => {
-  const [newNote, setNewNote] = useState('')
+  const [newNote, setNewNote] = useState("")
 
   const addNote = (event) => {
-    event.preventDefault();
+    event.preventDefault()
     createNote({
       content: newNote,
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
     })
-    setNewNote('')
+    setNewNote("")
   }
 
   const handleNoteChange = (event) => {
@@ -18,10 +18,12 @@ const NoteForm = ({ createNote }) => {
   }
 
   return (
-    <form onSubmit={addNote}>
-      <input value={newNote} onChange={handleNoteChange} />
-      <button type="submit">save</button>
-    </form>
+    <div className="formDiv">
+      <form onSubmit={addNote}>
+        <input value={newNote} onChange={handleNoteChange} />
+        <button type="submit">save</button>
+      </form>
+    </div>
   )
 }
 
