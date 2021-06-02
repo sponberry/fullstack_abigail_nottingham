@@ -3,50 +3,57 @@
     {
       "id": 1,
       "content": "HTML is easy",
-      "date": "2019-05-30T17:30:31.098Z",
       "important": false
     },
     {
       "id": 2,
       "content": "Browser can execute only JavaScript",
-      "date": "2019-05-30T18:39:34.091Z",
       "important": true
     },
     {
       "id": 3,
       "content": "GET and POST are the most important methods of HTTP protocol",
-      "date": "2019-05-30T19:20:14.298Z",
       "important": true
     },
     {
       "content": "This is a brand new note",
-      "date": "2021-04-05T17:11:34.204Z",
-      "important": false,
+      "important": true,
       "id": 4
     },
     {
       "content": "I have written a second note",
-      "date": "2021-04-05T17:12:51.029Z",
       "important": false,
       "id": 5
     },
     {
       "content": "You'll never step in the same river twice, it's not the same river, it's not the same you",
-      "date": "2021-04-05T17:16:55.206Z",
       "important": true,
       "id": 6
     },
     {
       "content": "Early morning blue sky feeling",
-      "date": "2021-04-06T06:22:38.848Z",
       "important": false,
       "id": 7
     },
     {
       "content": "This year, will be the year. The year when Lo-Fi is not my top Spotify genre.",
-      "date": "2021-04-06T06:31:20.334Z",
-      "important": false,
+      "important": true,
       "id": 8
+    },
+    {
+      "content": "fkjaldjaldla",
+      "important": true,
+      "id": 9
+    },
+    {
+      "content": "fksdfjsb",
+      "important": false,
+      "id": 10
+    },
+    {
+      "content": "hello i am a new note",
+      "important": false,
+      "id": 11
     }
   ]
 }
